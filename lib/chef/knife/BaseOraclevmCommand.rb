@@ -2,7 +2,7 @@
 # Author:: Geoff O'Callaghan (<geoffocallaghan@gmail.com>)
 # Contributor:: Michael Huisman michhuis@gmail.com
 # License:: Apache License, Version 2.0
-#
+# Version::0.0.8
 
 require 'chef/knife'
 
@@ -270,6 +270,30 @@ class Chef
                            return current
                         end
 #
+#                       kill_vm, given a vmname issue a kill request
+#
+			def kill_vm(vmname)
+                           current = {:errormsg => "", :status => "", :time => "", :vmstatus => ""}
+
+                           conn_opts=get_cli_connection
+                           Chef::Log.debug("#{conn_opts[:host]}...show vm name=#{vmname}")
+                           Net::SSH.start( conn_opts[:host], conn_opts[:user], :password => conn_opts[:password], :port => conn_opts[:port] ) do|ssh|
+                              output = ssh.exec!("kill vm name=#{vmname}")
+                              output.each_line do |line|
+                                 if line.match(/Status:/)
+                                    current[:status]=line.split[1].strip
+                                 elsif line.match(/Time:/)
+                                    line["Time: "]=""
+                                    current[:time]=line.strip
+                                 elsif line.match(/Error Msg:/)
+                                    line["Error Msg: "]=""
+                                    current[:errormsg]=line.strip
+                                 end
+                              end
+                           end
+                           return current
+                        end						
+#
 #                       list_vm, display all vm's
 #
 			def list_vm(vmname)
@@ -459,7 +483,55 @@ class Chef
                               end
                            end
                            return current
-                        end									
+                        end
+#
+#                       remove_vdisk, delete vdisk diskmapping
+#
+			def remove_vdisk(vdiskid)
+                           current = {:errormsg => "", :status => "", :time => "", :vmstatus => ""}
+						   
+                           conn_opts=get_cli_connection
+                           Chef::Log.debug("#{conn_opts[:host]}...delete VmDiskMapping id=#{vdiskid}")
+                           Net::SSH.start( conn_opts[:host], conn_opts[:user], :password => conn_opts[:password], :port => conn_opts[:port] ) do|ssh|
+                              output = ssh.exec!("delete VmDiskMapping id=#{vdiskid}")
+                              output.each_line do |line|
+                                 if line.match(/Status:/)
+                                    current[:status]=line.split[1].strip
+                                 elsif line.match(/Time:/)
+                                    line["Time: "]=""
+                                    current[:time]=line.strip
+                                 elsif line.match(/Error Msg:/)
+                                    line["Error Msg: "]=""
+                                    current[:errormsg]=line.strip
+                                 end
+                              end
+                           end
+                           return current
+                        end
+#
+#                       delete_vdisk, delete vdisk
+#
+			def delete_vdisk(vdisk)
+                           current = {:errormsg => "", :status => "", :time => "", :vmstatus => ""}
+						   
+                           conn_opts=get_cli_connection
+                           Chef::Log.debug("#{conn_opts[:host]}...delete VirtualDisk name=#{vdisk}")
+                           Net::SSH.start( conn_opts[:host], conn_opts[:user], :password => conn_opts[:password], :port => conn_opts[:port] ) do|ssh|
+                              output = ssh.exec!("delete VirtualDisk name=#{vdisk}")
+                              output.each_line do |line|
+                                 if line.match(/Status:/)
+                                    current[:status]=line.split[1].strip
+                                 elsif line.match(/Time:/)
+                                    line["Time: "]=""
+                                    current[:time]=line.strip
+                                 elsif line.match(/Error Msg:/)
+                                    line["Error Msg: "]=""
+                                    current[:errormsg]=line.strip
+                                 end
+                              end
+                           end
+                           return current
+                        end						
 #
 #                       edit_vm, edit VM cpu and memory
 #
@@ -484,6 +556,30 @@ class Chef
                            end
                            return current
                         end						
+#
+#                       migrate_vm, migrate VM to another server
+#
+			def migrate_vm(vmname, server)
+                           current = {:errormsg => "", :status => "", :time => "", :vmstatus => ""}
+						   
+                           conn_opts=get_cli_connection
+                           Chef::Log.debug("#{conn_opts[:host]}...migrate vm name=#{vmname},destServer=#{server}")
+                           Net::SSH.start( conn_opts[:host], conn_opts[:user], :password => conn_opts[:password], :port => conn_opts[:port] ) do|ssh|
+                              output = ssh.exec!("migrate vm name=#{vmname} destServer=#{server}")
+                              output.each_line do |line|
+                                 if line.match(/Status:/)
+                                    current[:status]=line.split[1].strip
+                                 elsif line.match(/Time:/)
+                                    line["Time: "]=""
+                                    current[:time]=line.strip
+                                 elsif line.match(/Error Msg:/)
+                                    line["Error Msg: "]=""
+                                    current[:errormsg]=line.strip
+                                 end
+                              end
+                           end
+                           return current
+                        end	
 #
 #                       add_vnic, add vnic on vm 
 #

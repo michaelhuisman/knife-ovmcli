@@ -1,5 +1,6 @@
 #
 # Author:: Geoff O'Callaghan (<geoffocallaghan@gmail.com>)
+#          Michael Huisman <michhuis@gmail.com> 
 # License:: Apache License, Version 2.0
 #
 
@@ -18,7 +19,7 @@ class Chef::Knife::OvmcliVmState < Chef::Knife::BaseOraclevmCommand
   option :state,
   :short => "-s STATE",
   :long => "--state STATE",
-  :description => "The power state to transition the VM into; one of on|off|suspend|resume|restart"
+  :description => "The power state to transition the VM into; one of on|off|suspend|resume|restart|kill"
 
 
   def run
@@ -56,6 +57,9 @@ class Chef::Knife::OvmcliVmState < Chef::Knife::BaseOraclevmCommand
                  puts "Restart virtual machine #{vmname} : #{result[:status]}"
            when 'resume'
                  puts "Cannot Resume virtual machine #{vmname} as it is on"
+		   when 'kill'
+                 result=kill_vm(vmname)
+                 puts "Kill virtual machine #{vmname} : #{result[:status]}"				 
            else
                  show_usage
            end
@@ -72,6 +76,8 @@ class Chef::Knife::OvmcliVmState < Chef::Knife::BaseOraclevmCommand
                  puts "Cannot Restrt virtual machine #{vmname} as it is off"
            when 'resume'
                  puts "Cannot Resume virtual machine #{vmname} as it is off"
+		   when 'kill'
+                 puts "Cannot Kill virtual machine #{vmname} as it is off"		 
            else
                  show_usage
            end
@@ -87,6 +93,8 @@ class Chef::Knife::OvmcliVmState < Chef::Knife::BaseOraclevmCommand
                  puts "Cannot Restrt virtual machine #{vmname} as it is Stopping"
            when 'resume'
                  puts "Cannot Resume virtual machine #{vmname} as it is Stopping"
+		   when 'kill'
+                 puts "Cannot Kill virtual machine #{vmname} as it is Stopping"		 
            else
                  show_usage
            end
@@ -103,6 +111,9 @@ class Chef::Knife::OvmcliVmState < Chef::Knife::BaseOraclevmCommand
            when 'resume'
                  result=resume_vm(vmname)
                  puts "Resume virtual machine #{vmname} : #{result[:status]}"
+		   when 'kill'
+                 result=kill_vm(vmname)
+                 puts "Killing virtual machine #{vmname} : #{result[:status]}"		 
            else
                  show_usage
            end
