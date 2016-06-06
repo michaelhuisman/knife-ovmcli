@@ -27,7 +27,7 @@ This plugin provides the following Knife subcommands.  Specific command options 
     Change the operational state of a VM
 
     <vmname> is the name of the virtual machine you wish to display or alter the power state on.
-    -s,  --state <on|off|suspend|resume|reset>   Alter the power state of the virtual machine to the state specified    
+    -s,  --state <on|off|suspend|resume|reset|kill>   Alter the power state of the virtual machine to the state specified    
     
     If -s,  --state is not specified the current power state is displayed
 
@@ -53,6 +53,12 @@ This plugin provides the following Knife subcommands.  Specific command options 
     -t, --desttype VALUE    The object to create from the virtual machine can be a virtual machine or a template.
     -p, --serverpool VALUE  The server pool on which to deploy the cloned virtual machine or template.
      
+== knife ovmcli vm migrate <vmname> <options>
+
+        Migrate the specified VM to another Server
+
+    -s, --server VALUE    The name of the Oracle VM Server on which to migrate the virtual machine.
+
 == knife ovmcli vm edit <vmname> <options>
     
 	Edit cpu and memory of a VM 
@@ -85,6 +91,14 @@ This plugin provides the following Knife subcommands.  Specific command options 
 
     -s, --slot VALUE         The slot number.
     -d, --vdisk VALUE        The name of the virtual disk
+
+== knife ovmcli vm removevdisk <vdiskid>
+
+        Remove a Virtualdisk Mapping for a specified vdiskid
+
+== knife ovmcli vm deletevdisk <vdisk>
+
+        Delete a virtualdisk 
 
 == knife ovmcli vm message <vmname> <options>
     
