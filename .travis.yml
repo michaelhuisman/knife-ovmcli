@@ -1,0 +1,19 @@
+ ---
+language: ruby
+cache: bundler
+
+# necessary for docker to work
+sudo: required
+dist: trusty
+services:
+  - docker
+
+before_install:
+  - gem install bundler
+  - gem --version
+
+matrix:
+  include:
+    - rvm: 2.2
+      bundler_args: "--without integration"
+      script: bundle exec rake
