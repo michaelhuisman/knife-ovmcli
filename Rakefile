@@ -17,3 +17,12 @@ task :clean do
   pkg_dir = File.join(File.dirname(__FILE__), 'pkg')
   FileUtils.rm_rf(pkg_dir) if Dir.exists? pkg_dir
 end
+
+require 'bundler/gem_tasks'
+require 'rspec/core/rake_task'
+require 'rubocop/rake_task'
+
+RSpec::Core::RakeTask.new(:spec)
+RuboCop::RakeTask.new(:style)
+
+task default: [ :spec, :style ]
