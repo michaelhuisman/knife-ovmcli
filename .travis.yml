@@ -1,15 +1,10 @@
- ---
 language: ruby
+cache: bundler
+sudo: false
 rvm:
-  - 1.9.3
-
-group :test do
-  gem 'rake'
-end
-
-require "bundler/gem_tasks"
-require 'rspec/core/rake_task'
-
-RSpec::Core::RakeTask.new
-
-task :default => :spec
+- 2.0.0
+- 2.1
+- 2.2
+branches:
+  only:
+  - master
