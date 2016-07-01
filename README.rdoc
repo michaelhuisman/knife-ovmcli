@@ -1,5 +1,7 @@
 = Knife OvmCli
 
+{<img src="https://travis-ci.org/michaelhuisman/knife-ovmcli.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/michaelhuisman/knife-ovmcli]
+
 = DESCRIPTION:
 
 This is an Opscode Knife plugin to interact with Oracle's OracleVM. 
