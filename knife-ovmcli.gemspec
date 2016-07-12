@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
 
   s.author = "Michael Huisman / Geoff O'Callaghan"
-  s.description = "OracleVM Support for Chef's Knife Command
+  s.description = "OracleVM Support for Chef's Knife Command"
   s.email = "geoffocallaghan@gmail.com / michhuis@gmail.com"
   s.files = Dir["lib/**/*"]
   s.rubygems_version = "1.3.7"
